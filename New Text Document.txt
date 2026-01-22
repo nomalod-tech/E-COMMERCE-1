@@ -1,0 +1,437 @@
+Below is a complete, self-contained e-commerce mini-site for **Classic Ray** (WIN CREAST VENTURES).  
+Save the three snippets as `index.html`, `style.css` and `script.js` in the same folder and open `index.html` in any browser—no build steps or frameworks required.
+
+--------------------------------------------------
+index.html
+--------------------------------------------------
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classic Ray – Premium Cosmetic Devices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google font (optional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ********************  HEADER / NAV  ******************** -->
+<header class="top-bar">
+    <div class="container nav-wrapper">
+        <a href="#home" class="logo">Classic Ray</a>
+
+        <!-- Desktop nav -->
+        <nav class="desktop-nav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#products">Products</a>
+            <a href="#contact">Contact</a>
+            <a href="#cart" class="cart-link">
+                Cart <span class="cart-count">0</span>
+            </a>
+        </nav>
+
+        <!-- Mobile nav toggle -->
+        <button class="hamburger" aria-label="Open menu">?</button>
+    </div>
+
+    <!-- Mobile slide-in nav -->
+    <nav class="mobile-nav">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+        <a href="#cart">Cart <span class="cart-count">0</span></a>
+    </nav>
+</header>
+
+<!-- ********************  HERO  ******************** -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Classic Ray</h1>
+        <p class="tagline">Elevate your space with timeless fragrance technology.</p>
+        <a href="#products" class="btn-gold">Explore Devices</a>
+    </div>
+</section>
+
+<!-- ********************  ABOUT  ******************** -->
+<section id="about" class="about">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>
+            Classic Ray is the flagship cosmetics-device brand of <strong>WIN CREAST VENTURES (PVT) LTD</strong>.
+            We design minimalist, high-performance perfume and air-freshener devices that blend seamlessly
+            into modern interiors while delivering consistent, luxurious ambience.
+        </p>
+    </div>
+</section>
+
+<!-- ********************  PRODUCTS  ******************** -->
+<section id="products" class="products">
+    <div class="container">
+        <h2>Our Devices</h2>
+
+        <!-- Filter tabs -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="perfume">Perfume</button>
+            <button class="filter-btn" data-filter="freshener">Air Freshener</button>
+        </div>
+
+        <!-- Product grid -->
+        <div class="product-grid" id="productGrid">
+            <!-- JS injects cards here -->
+        </div>
+    </div>
+</section>
+
+<!-- ********************  CART  ******************** -->
+<section id="cart" class="cart-section">
+    <div class="container">
+        <h2>Your Cart</h2>
+        <div class="cart-items" id="cartItems">
+            <!-- JS injects rows here -->
+        </div>
+        <div class="cart-total">
+            Total: <span id="cartTotal">LKR 0.00</span>
+        </div>
+        <button class="btn-gold checkout-btn">Checkout</button>
+    </div>
+</section>
+
+<!-- ********************  CONTACT  ******************** -->
+<section id="contact" class="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form id="contactForm" novalidate>
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="5" placeholder="Message" required></textarea>
+            <button type="submit" class="btn-gold">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<!-- ********************  FOOTER  ******************** -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; <span id="year"></span> WIN CREAST VENTURES (PVT) LTD. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+```
+
+--------------------------------------------------
+style.css
+--------------------------------------------------
+```css
+/* ---------- CSS RESET ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; scroll-behavior: smooth; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+
+/* ---------- VARIABLES ---------- */
+:root {
+    --clr-black: #111;
+    --clr-gold: #d4af37;
+    --clr-light: #fafafa;
+    --clr-gray: #f5f5f5;
+    --max-width: 1100px;
+    --radius: 8px;
+    --transition: .3s ease;
+}
+
+/* ---------- LAYOUT ---------- */
+.container { width: 90%; max-width: var(--max-width); margin: auto; }
+section { padding: 4rem 0; }
+
+/* ---------- HEADER ---------- */
+.top-bar { background: rgba(255,255,255,.95); position: sticky; top: 0; z-index: 999; box-shadow: 0 2px 6px rgba(0,0,0,.05); }
+.nav-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+.logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; color: var(--clr-gold); }
+.desktop-nav { display: flex; gap: 2rem; align-items: center; }
+.desktop-nav a { position: relative; }
+.desktop-nav a::after {
+    content: ''; position: absolute; left: 0; bottom: -4px;
+    width: 0; height: 2px; background: var(--clr-gold);
+    transition: width var(--transition);
+}
+.desktop-nav a:hover::after { width: 100%; }
+.cart-count { background: var(--clr-gold); color: #fff; border-radius: 50%; padding: 2px 6px; font-size: .75rem; margin-left: 4px; }
+
+/* hamburger */
+.hamburger { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+/* mobile nav */
+.mobile-nav {
+    position: fixed; inset: 0 0 0 40%; 
+    background: #fff; padding: 2rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+    transform: translateX(100%); transition: transform var(--transition);
+}
+.mobile-nav.open { transform: translateX(0); }
+
+/* ---------- HERO ---------- */
+.hero {
+    min-height: 70vh; background: url('https://source.unsplash.com/1600x900/?perfume,minimal') center/cover no-repeat;
+    display: flex; align-items: center; justify-content: center; text-align: center; color: #fff;
+    position: relative;
+}
+.hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.6));
+}
+.hero-content { position: relative; z-index: 1; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+.tagline { font-size: 1.1rem; margin-bottom: 2rem; }
+
+/* ---------- BUTTONS ---------- */
+.btn-gold {
+    display: inline-block; background: var(--clr-gold); color: #fff;
+    padding: .75rem 1.75rem; border-radius: var(--radius);
+    transition: background var(--transition);
+}
+.btn-gold:hover { background: #b8972e; }
+
+/* ---------- ABOUT ---------- */
+.about { background: var(--clr-gray); text-align: center; }
+.about p { max-width: 700px; margin: auto; }
+
+/* ---------- PRODUCTS ---------- */
+.filter-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+.filter-btn { background: #fff; border: 1px solid var(--clr-gold); padding: .5rem 1rem; border-radius: var(--radius); cursor: pointer; transition: var(--transition); }
+.filter-btn.active, .filter-btn:hover { background: var(--clr-gold); color: #fff; }
+
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; }
+
+.product-card {
+    background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.product-card img { height: 200px; object-fit: cover; }
+.product-info { padding: 1rem; }
+.product-name { font-weight: 500; margin-bottom: .25rem; }
+.product-price { color: var(--clr-gold); font-weight: 600; margin-bottom: .75rem; }
+.add-cart-btn { width: 100%; background: var(--clr-black); color: #fff; padding: .5rem; border: none; border-radius: var(--radius); cursor: pointer; transition: background var(--transition); }
+.add-cart-btn:hover { background: var(--clr-gold); }
+
+/* ---------- CART ---------- */
+.cart-section { background: var(--clr-light); }
+.cart-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+.cart-item { display: flex; align-items: center; gap: 1rem; background: #fff; padding: 1rem; border-radius: var(--radius); }
+.cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius); }
+.cart-item-info { flex: 1; }
+.cart-item-info h4 { margin-bottom: .25rem; }
+.cart-item-info p { color: var(--clr-gold); font-weight: 600; }
+.qty-controls { display: flex; align-items: center; gap: .5rem; }
+.qty-controls button { width: 28px; height: 28px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; }
+.remove-btn { background: crimson; color: #fff; border: none; padding: .25rem .5rem; border-radius: 4px; cursor: pointer; }
+.cart-total { text-align: right; font-size: 1.25rem; margin-bottom: 1rem; font-weight: 600; }
+
+/* ---------- CONTACT ---------- */
+.contact form { max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 1rem; }
+.contact input, .contact textarea { padding: .75rem; border: 1px solid #ddd; border-radius: var(--radius); font-family: inherit; }
+.contact button { align-self: center; }
+
+/* ---------- FOOTER ---------- */
+.footer { background: var(--clr-black); color: #fff; text-align: center; padding: 1.5rem 0; font-size: .875rem; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .desktop-nav { display: none; }
+    .hamburger { display: block; }
+    .filter-tabs { flex-wrap: wrap; }
+}
+```
+
+--------------------------------------------------
+script.js
+--------------------------------------------------
+```javascript
+/* =========================================================
+   DATA
+=========================================================*/
+const products = [
+  { id: 1, name: 'Ray Bloom Perfume Pod', price: 8900, img: 'https://source.unsplash.com/400x400/?perfume,bottle', cat: 'perfume' },
+  { id: 2, name: 'Ray Mist Pro', price: 12400, img: 'https://source.unsplash.com/400x400/?gold,perfume', cat: 'perfume' },
+  { id: 3, name: 'Ray Car Freshener Mini', price: 4500, img: 'https://source.unsplash.com/400x400/?car,refresh', cat: 'freshener' },
+  { id: 4, name: 'Ray Home Sphere', price: 9900, img: 'https://source.unsplash.com/400x400/?home,scent', cat: 'freshener' },
+  { id: 5, name: 'Ray Elite Diffuser', price: 15900, img: 'https://source.unsplash.com/400x400/?diffuser,luxury', cat: 'perfume' },
+  { id: 6, name: 'Ray Office Clip', price: 3800, img: 'https://source.unsplash.com/400x400/?office,fresh', cat: 'freshener' }
+];
+
+/* =========================================================
+   STATE
+=========================================================*/
+let cart = JSON.parse(localStorage.getItem('classicRayCart')) || [];
+
+/* =========================================================
+   ELEMENTS
+=========================================================*/
+const productGrid  = document.getElementById('productGrid');
+const cartItemsEl  = document.getElementById('cartItems');
+const cartTotalEl  = document.getElementById('cartTotal');
+const cartCountEls = document.querySelectorAll('.cart-count');
+const hamburger    = document.querySelector('.hamburger');
+const mobileNav    = document.querySelector('.mobile-nav');
+const contactForm  = document.getElementById('contactForm');
+
+/* =========================================================
+   INITIALISATION
+=========================================================*/
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts();
+  renderCart();
+  updateCartCount();
+  yearFooter();
+  setupFilterListeners();
+  setupMobileNav();
+  setupContactForm();
+});
+
+/* =========================================================
+   PRODUCTS
+=========================================================*/
+function renderProducts(filter = 'all') {
+  const filtered = filter === 'all'
+    ? products
+    : products.filter(p => p.cat === filter);
+
+  productGrid.innerHTML = filtered.map(p => `
+    <div class="product-card" data-category="${p.cat}">
+      <img src="${p.img}" alt="${p.name}">
+      <div class="product-info">
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-price">LKR ${p.price.toLocaleString()}</p>
+        <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setupFilterListeners() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      document.querySelector('.filter-btn.active').classList.remove('active');
+      e.target.classList.add('active');
+      renderProducts(e.target.dataset.filter);
+    });
+  });
+}
+
+/* =========================================================
+   CART LOGIC
+=========================================================*/
+function addToCart(id) {
+  const inCart = cart.find(item => item.id === id);
+  if (inCart) {
+    inCart.qty += 1;
+  } else {
+    const product = products.find(p => p.id === id);
+    cart.push({ ...product, qty: 1 });
+  }
+  saveCart();
+  renderCart();
+  updateCartCount();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  saveCart();
+  renderCart();
+  updateCartCount();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else {
+    saveCart();
+    renderCart();
+    updateCartCount();
+  }
+}
+
+function saveCart() {
+  localStorage.setItem('classicRayCart', JSON.stringify(cart));
+}
+
+function renderCart() {
+  if (cart.length === 0) {
+    cartItemsEl.innerHTML = '<p>Your cart is empty.</p>';
+    cartTotalEl.textContent = 'LKR 0.00';
+    return;
+  }
+
+  cartItemsEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img src="${item.img}" alt="${item.name}">
+      <div class="cart-item-info">
+        <h4>${item.name}</h4>
+        <p>LKR ${item.price.toLocaleString()}</p>
+      </div>
+      <div class="qty-controls">
+        <button onclick="changeQty(${item.id}, -1)">-</button>
+        <span>${item.qty}</span>
+        <button onclick="changeQty(${item.id}, 1)">+</button>
+      </div>
+      <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+    </div>
+  `).join('');
+
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  cartTotalEl.textContent = `LKR ${total.toLocaleString()}`;
+}
+
+function updateCartCount() {
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
+  cartCountEls.forEach(el => el.textContent = count);
+}
+
+/* =========================================================
+   MOBILE NAV
+=========================================================*/
+function setupMobileNav() {
+  hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+  mobileNav.addEventListener('click', () => mobileNav.classList.remove('open'));
+}
+
+/* =========================================================
+   CONTACT FORM
+=========================================================*/
+function setupContactForm() {
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+    alert('Thank you! Your message has been sent.');
+    contactForm.reset();
+  });
+}
+
+/* =========================================================
+   MISC
+=========================================================*/
+function yearFooter() {
+  document.getElementById('year').textContent = new Date().getFullYear();
+}
+```
+
+--------------------------------------------------
+Usage Notes
+--------------------------------------------------
+1. Replace Unsplash placeholder URLs with your own product shots when ready.  
+2. All cart data persists via `localStorage`; clear browser cache to reset.  
+3. Color palette, fonts, and animations are intentionally minimal—tweak `:root` variables or add key-frames for richer motion.  
+4. The site is fully responsive; open Dev-Tools and toggle device mode to test mobile/tablet layouts.
